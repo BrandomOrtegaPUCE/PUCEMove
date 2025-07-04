@@ -14,9 +14,21 @@ function ViajesList() {
     <div>
       <h2>Lista de Viajes</h2>
       <ul>
-        {viajes.map(v => (
-          <li key={v.id}>
-            {v.origen} → {v.destino} | {v.fecha} {v.hora} | Cupos: {v.cupos_disponibles}
+        {viajes.map(viaje => (
+          <li key={viaje.id} style={{ marginBottom: '1rem' }}>
+            <strong>{viaje.origen} → {viaje.destino}</strong><br />
+            Fecha: {viaje.fecha} - Hora: {viaje.hora}<br />
+            Cupos disponibles: {viaje.cupos_disponibles}<br />
+            <em>Pasajeros:</em>
+            <ul>
+              {viaje.pasajeros && viaje.pasajeros.length > 0 ? (
+                viaje.pasajeros.map(p => (
+                  <li key={p.id}>{p.nombre}</li>
+                ))
+              ) : (
+                <li>Sin pasajeros aún</li>
+              )}
+            </ul>
           </li>
         ))}
       </ul>

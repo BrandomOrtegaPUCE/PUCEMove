@@ -22,6 +22,23 @@ class Viaje(models.Model):
     fecha = models.DateField()
     hora = models.TimeField()
     cupos_disponibles = models.PositiveIntegerField()
+    pasajeros = models.ManyToManyField(Usuario, related_name='viajes_como_pasajero', blank=True)
 
     def __str__(self):
         return f"{self.origen} → {self.destino} ({self.fecha} - {self.hora})"
+
+
+class Solicitud(models.Model):
+    ESTADO_CHOICES = [
+        ('pendiente', 'Pendiente'),
+        ('aceptada', 'Aceptada'),
+        ('rechazada', 'Rechazada'),
+    ]
+
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    viaje = models.ForeignKey(Viaje, on_delete=models.CASCADE)
+    estado = models.CharField(max_length=10, choices=ESTADO_CHOICES, default='pendiente')
+    mensaje = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.usuario.nombre} → {self.viaje} [{self.estado}]"
