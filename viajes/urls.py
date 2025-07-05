@@ -1,15 +1,15 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import UsuarioViewSet, ViajeViewSet, SolicitudViewSet, LoginView, perfil_usuario
+from .views import ViajeViewSet, SolicitudViewSet, LoginView, perfil_usuario, registro_usuario, UserViewSet
 
 router = DefaultRouter()
-router.register(r'usuarios', UsuarioViewSet)
-router.register(r'viajes', ViajeViewSet)
-router.register(r'solicitudes', SolicitudViewSet)
-
+router.register(r'viajes', ViajeViewSet, basename='viaje')
+router.register(r'solicitudes', SolicitudViewSet, basename='solicitud')
+router.register(r'users', UserViewSet, basename='usuario')
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('api/login/', LoginView.as_view(), name='api_login'),
-    path('api/perfil/', perfil_usuario, name='perfil_usuario'),
+    path('', include(router.urls)),              # <-- Sin 'api/' aquí
+    path('login/', LoginView.as_view(), name='api_login'),
+    path('perfil/', perfil_usuario, name='perfil_usuario'),
+    path('registro/', registro_usuario, name='registro_usuario'),
 ]
